@@ -79,7 +79,7 @@ void* fw (void * arg){
 					mat_dist[i * tam + j] = mat_dist[i * tam + k] + mat_dist[k * tam + j];
 			}
 		}
-		//barreira(nthreads); //aguarda as outras threads terminarem suas linhas
+		barreira(nthreads); //aguarda as outras threads terminarem suas linhas
 	}
 	pthread_exit(NULL);
 }
