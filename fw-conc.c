@@ -8,10 +8,11 @@
  */
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <string.h>
+#include <stdio.h>	/* printf() */
+#include <stdlib.h>	/* malloc() */
+#include <pthread.h>	/* wait(), signal(), pthread_init, pthread_destroy, pthread_t, mutex_t, cond_t*/
+#include <string.h>	/* strcmp(), */
+#include <time.h>	/* clock_t, CLOCKS_PER_SEC*/
 
 #define INFINITO 99999999  //para representar o infito na matriz
 #define TAM_MAX_STRING 10  //para alocar o tamanho da string usada na leitura
@@ -78,7 +79,7 @@ void* fw (void * arg){
 					mat_dist[i * tam + j] = mat_dist[i * tam + k] + mat_dist[k * tam + j];
 			}
 		}
-		barreira(nthreads); //aguarda as outras threads terminarem suas linhas
+		//barreira(nthreads); //aguarda as outras threads terminarem suas linhas
 	}
 	pthread_exit(NULL);
 }
@@ -86,12 +87,14 @@ void* fw (void * arg){
 
 // Fluxo principal
 int main(int argc, char * argv[]){
-	int n;            // Tamanho da maztriz quadrada 
-	FILE *arq;        // Ponteiro para arquivo
-	char str[TAM_MAX_STRING];    // String auxiliar para leitura da matriz
-
+	int n;            	    // Tamanho da maztriz quadrada 
+	FILE *arq;		   //  Ponteiro para arquivo
+	char str[TAM_MAX_STRING]; //   String auxiliar para leitura da matriz
+	clock_t t;	   	 //    Tomada de tempo
+	
 	pthread_t *tid;   // Id das threads no sistema
-	T_ARGS *dados;    // Estruturas das threads
+	T_ARGS *dados;   //  Estruturas das threads
+
 
 	// Verificação inicial
 	if(argc < 3){
@@ -115,6 +118,8 @@ int main(int argc, char * argv[]){
 	mat_dist = malloc(sizeof(int) * n * n);
 	if(mat_dist == NULL){fprintf(stderr, "ERRO -- malloc()\n"); return 3;}
 	
+	printf("Lendo o arquivo...\n");
+
 	// Leitura da matriz
 	for(int i = 0; i < n; i++){
 		for(int j = 0; j < n; j++){
@@ -123,6 +128,8 @@ int main(int argc, char * argv[]){
 		}
 	}
 
+	printf("Leitura concluída.\n\n");
+
 	// Alocação de memória para as estruturas
 	tid = (pthread_t *) malloc(sizeof(pthread_t) * nthreads);
 	if(tid == NULL){puts("ERRO--malloc()");	return 2;}
@@ -130,6 +137,9 @@ int main(int argc, char * argv[]){
 	dados = (T_ARGS *) malloc(sizeof(T_ARGS) * nthreads);
 	if(dados == NULL){puts("ERRO--malloc()"); return 2;}
 
+	printf("Calculando Floyd-Warshal...\n");
+
+	t = clock();
 	// Cria as threads e chama o algoritmo de Floyd Marshall
 	for(int i = 0; i < nthreads; i++){
 		(dados + i)->id = i;
@@ -146,9 +156,14 @@ int main(int argc, char * argv[]){
 		       puts("ERRO-- pthread_join()\n");	return 4;
 		}
 	}	
+	
+	printf("Cálculo concluído.\n\n");
+
+	t = clock() - t;
 
 	// Printa resultado
-	print_mat(mat_dist, n);
+	//print_mat(mat_dist, n);
+	printf("Tempo concorrente: %f\n", ((float)t)/CLOCKS_PER_SEC);
 
 	// Fecha o arquivo
 	fclose(arq);

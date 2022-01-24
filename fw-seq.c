@@ -10,10 +10,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #define INFINITO 99999999
 #define TAM_MAX_STRING 10
 
+
+/* Printa a matriz restultado */
 void print_mat(int *mat_dist, int n){
 	for(int i = 0; i < n; i++){
 		for(int j = 0; j < n; j++)
@@ -48,7 +51,8 @@ int main(int argc, char* argv[]){
 	int *mat_dist;		    //  Matriz distância advinda do grafo
 	FILE *arq; 		   //   Ponteiro para arquivo
 	char str[TAM_MAX_STRING]; //    String auxiliar para leitura da matriz
-
+	//double ini, fim;	 //	Tomada de tempo
+	clock_t t;
 
 	// Verificação inicial
 	if(argc < 2){
@@ -66,7 +70,9 @@ int main(int argc, char* argv[]){
 	// Aloca memória para a matriz distância
 	mat_dist = malloc(sizeof(int) * n * n);
 	if(mat_dist == NULL){fprintf(stderr, "ERRO -- malloc()\n"); return 3;}
-	
+
+	printf("Lendo o arquvio...\n");
+
 	for(int i = 0; i < n; i++){
 		for(int j = 0; j < n; j++){
 			fscanf(arq, "%s", str);
@@ -74,11 +80,18 @@ int main(int argc, char* argv[]){
 		}
 	}
 	
+	printf("Leitura concluída.\n\n");
+
+	printf("Calculando Floyd-Warshal...\n");
+	t = clock();
 	// Algoritmo de Floyd-Warshall
 	fw(mat_dist, n);
-	
+	t = clock() - t;
+	printf("Cálculo concluído.\n\n");
+
 	// Printa resultado
-	print_mat(mat_dist, n);
+	//print_mat(mat_dist, n);
+	printf("Tempo sequencial: %f\n", ((float)t)/CLOCKS_PER_SEC);	
 	
 	// Fecha o arquivo
 	fclose(arq);
