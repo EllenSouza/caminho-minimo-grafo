@@ -8,23 +8,23 @@
  */
 
 
-#include <stdio.h>	/* printf() */
-#include <stdlib.h>	/* malloc() */
-#include <pthread.h>	/* wait(), signal(), pthread_init, pthread_destroy, pthread_t, mutex_t, cond_t*/
-#include <string.h>	/* strcmp(), */
-#include <time.h>	/* clock_t, CLOCKS_PER_SEC*/
+#include <stdio.h>     // printf(), fprintf(), fscanf(), fopen(), fclose()
+#include <stdlib.h>   //  malloc(), free(), atoi()
+#include <pthread.h> //   wait(), broadcast(), create(), join(), init(), destroy(), lock(), unlock()
+#include <string.h> //    strcmp()
+#include <time.h>  //     clock_t, CLOCKS_PER_SEC
 
-#define INFINITO 99999999  //para representar o infito na matriz
-#define TAM_MAX_STRING 10  //para alocar o tamanho da string usada na leitura
+#define INFINITO 99999999   // Para representar o infito na matriz
+#define TAM_MAX_STRING 10  //  Para alocar o tamanho da string usada na leitura
 
 // Variáveis de escopo global
-int * mat_dist;           // matriz distância advinda do grafo
-int nthreads;             //quantidade de threads
+int *mat_dist;           // Matriz distância advinda do grafo
+int nthreads;           //  Quantidade de threads
 
 // Variáveis de sincronização
-pthread_mutex_t mutex;    //variável de exclusão mútua
-pthread_cond_t  cond;     //variável de condição
-int bloqueadas = 0;       //para a implementação da barreira
+pthread_mutex_t mutex;    // Variável de exclusão mútua
+pthread_cond_t  cond;    //  Variável de condição
+int bloqueadas = 0;     //   Para a implementação da barreira
 
 
 // Estrutura de dados para passar para as threads
@@ -33,19 +33,14 @@ typedef struct {
 	int id;
 }T_ARGS;
 
-// Função para printar a matriz
-void print_mat(int *mat_dist, int n){
-        for(int i = 0; i < n; i++){
-                for(int j = 0; j < n; j++)
-                        printf("%*d%c", 4, mat_dist[i * n + j], j != n - 1?'\t':'\n');
-        }
-}
-
-// Função da barreira
+/*
+ * Função que implementa a sincronização coletiva
+ * usando barreiras.
+ */
 void barreira(int nthreads){
 	pthread_mutex_lock(&mutex); //inicio da seção crítica
-	if(bloqueadas == (nthreads-1)){
-		//última thread a chegar na barreira
+	if(bloqueadas == (nthreads - 1)){
+		// Última thread a chegar na barreira
 		pthread_cond_broadcast(&cond);
 		bloqueadas = 0;
 	}
@@ -57,8 +52,8 @@ void barreira(int nthreads){
 }
 
 
-// Função que as threads irão executar
 /*
+ * Função que as threads irão executar.
  * Algoritmo de Floyd-Warshall para calcular o caminho mínimo
  * para todo par de vértices de um grafo dirigido e ponderado.
  *
@@ -79,7 +74,7 @@ void* fw (void * arg){
 					mat_dist[i * tam + j] = mat_dist[i * tam + k] + mat_dist[k * tam + j];
 			}
 		}
-		barreira(nthreads); //aguarda as outras threads terminarem suas linhas
+		barreira(nthreads); // Aguarda as outras threads terminarem suas linhas
 	}
 	pthread_exit(NULL);
 }
@@ -132,10 +127,10 @@ int main(int argc, char * argv[]){
 
 	// Alocação de memória para as estruturas
 	tid = (pthread_t *) malloc(sizeof(pthread_t) * nthreads);
-	if(tid == NULL){puts("ERRO--malloc()");	return 2;}
+	if(tid == NULL){fprintf(stderr, "ERRO--malloc()");	return 2;}
 	
 	dados = (T_ARGS *) malloc(sizeof(T_ARGS) * nthreads);
-	if(dados == NULL){puts("ERRO--malloc()"); return 2;}
+	if(dados == NULL){fprintf(stderr, "ERRO--malloc()"); return 2;}
 
 	printf("Calculando Floyd-Warshal...\n");
 
@@ -146,24 +141,38 @@ int main(int argc, char * argv[]){
 		(dados + i)->n = n;
 		
 		if(pthread_create((tid + i), NULL, fw, (void *)(dados + i))){
-		       puts("ERRO-- pthread_create()\n");	return 3;
+		       fprintf(stderr, "ERRO-- pthread_create()\n");	return 3;
 		}
-	}		
+	}	
 
 	// Espera pelo término das threads
 	for(int i = 0; i < nthreads; i++){
 		if(pthread_join(*(tid + i), NULL)){
-		       puts("ERRO-- pthread_join()\n");	return 4;
+		       fprintf(stderr, "ERRO-- pthread_join()\n");	return 4;
 		}
 	}	
 	
+	t = clock() - t;
 	printf("Cálculo concluído.\n\n");
 
-	t = clock() - t;
+	printf("Tempo concorrente: %f\n\n", ((float)t)/CLOCKS_PER_SEC);
 
-	// Printa resultado
-	//print_mat(mat_dist, n);
-	printf("Tempo concorrente: %f\n", ((float)t)/CLOCKS_PER_SEC);
+	// Fecha o arquivo
+	fclose(arq);
+
+	// Imprime resultado em output-conc.txt
+	arq = fopen("entrada_saida/output-conc.txt", "w+");
+	if(arq == NULL){fprintf(stderr, "ERRO -- fopen()\n"); return 2;}
+
+	// Escreve resultado no arquivo
+	printf("Escrevendo resultado em output-conc.txt...\n");
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++)
+			fprintf(arq,"%d%c", mat_dist[i * n + j], j == n - 1?'\n':' ');
+	}
+	printf("Escrita concluída.\n\n");
+
+	printf("Fim da execução!\n");
 
 	// Fecha o arquivo
 	fclose(arq);

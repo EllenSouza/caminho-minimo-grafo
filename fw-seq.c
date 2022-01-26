@@ -7,22 +7,13 @@
  * Desenvolvido por: Ellen Almeida de Souza e Kevin Sena de Andrade
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <stdio.h>       // printf(), fprintf(), fscanf(), fopen(), fclose()
+#include <stdlib.h>     //  malloc(), free(), atoi()
+#include <string.h>    //   strcmp()
+#include <time.h>     //    clock_t, CLOCKS_PER_SEC
 
-#define INFINITO 99999999
-#define TAM_MAX_STRING 10
-
-
-/* Printa a matriz restultado */
-void print_mat(int *mat_dist, int n){
-	for(int i = 0; i < n; i++){
-		for(int j = 0; j < n; j++)
-			printf("%*d%c", 4, mat_dist[i * n + j], j != n - 1?'\t':'\n');
-	}
-}
+#define INFINITO 99999      // Para representar o infito na matriz
+#define TAM_MAX_STRING 10  //  Para alocar o tamanho da string usada na leiturai
 
 /*
  * Algoritmo de Floyd-Warshall para calcular o caminho mínimo
@@ -40,8 +31,7 @@ void fw(int *mat, int n){
 				if(j == k || i == j) continue;
 				if( mat[i * n + j] > mat[i * n + k] + mat[k * n + j] )
 					mat[i * n + j] = mat[i * n + k] + mat[k * n + j];
-			}	
-
+			}
 		}
 	}
 }
@@ -51,8 +41,7 @@ int main(int argc, char* argv[]){
 	int *mat_dist;		    //  Matriz distância advinda do grafo
 	FILE *arq; 		   //   Ponteiro para arquivo
 	char str[TAM_MAX_STRING]; //    String auxiliar para leitura da matriz
-	//double ini, fim;	 //	Tomada de tempo
-	clock_t t;
+	clock_t t;		 //	Tomada de tempo
 
 	// Verificação inicial
 	if(argc < 2){
@@ -64,7 +53,6 @@ int main(int argc, char* argv[]){
 	arq = fopen(argv[1], "r");
 	if(arq == NULL){fprintf(stderr, "ERRO -- fopen()\n");return 2;}
 
-	// Leitura da matriz de distância	
 	fscanf(arq, "%d", &n); // Tamanho da matriz
 	
 	// Aloca memória para a matriz distância
@@ -73,6 +61,7 @@ int main(int argc, char* argv[]){
 
 	printf("Lendo o arquvio...\n");
 
+	// Leitura da matriz de distância
 	for(int i = 0; i < n; i++){
 		for(int j = 0; j < n; j++){
 			fscanf(arq, "%s", str);
@@ -80,24 +69,38 @@ int main(int argc, char* argv[]){
 		}
 	}
 	
+	// Fecha o arquivo
+	fclose(arq);
+
 	printf("Leitura concluída.\n\n");
 
 	printf("Calculando Floyd-Warshal...\n");
 	t = clock();
-	// Algoritmo de Floyd-Warshall
-	fw(mat_dist, n);
+	fw(mat_dist, n); // Algoritmo de Floyd-Warshall
 	t = clock() - t;
+	
 	printf("Cálculo concluído.\n\n");
 
-	// Printa resultado
-	//print_mat(mat_dist, n);
-	printf("Tempo sequencial: %f\n", ((float)t)/CLOCKS_PER_SEC);	
+	printf("Tempo sequencial: %f\n\n", ((float)t)/CLOCKS_PER_SEC);	
+	
+	// Imprime resultado em output-seq.txt
+	arq = fopen("entrada_saida/output-seq.txt", "w+");
+	if(arq == NULL){fprintf(stderr, "ERRO -- fopen()\n"); return 2;}
+	
+	// Escreve resultado no arquivo
+	printf("Escrevendo resultado em output-seq.txt...\n");
+	for(int i = 0; i < n; i++){
+		for(int j = 0; j < n; j++)
+			fprintf(arq,"%d%c", mat_dist[i * n + j], j == n - 1?'\n':' ');
+	}
+	printf("Escrita concluída.\n\n");
+	printf("Fim da execução!\n");
 	
 	// Fecha o arquivo
 	fclose(arq);
-
+	
 	// Libera memórias alocadas
-	free(mat_dist);
+	//free(mat_dist);
 
 	return 0;
 }
