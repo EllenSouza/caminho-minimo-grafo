@@ -38,7 +38,7 @@ int main (int argc, char * argv[]){
 				
 				if(aux==0)	fprintf(arq, "N ");
 				else {
-					aux = rand() %101 ;
+					aux = rand() % 19 + 1;
 					fprintf(arq, "%d ",aux);
 				}
 			}
