@@ -100,7 +100,7 @@ int main(int argc, char* argv[]){
 	fclose(arq);
 	
 	// Libera memórias alocadas
-	//free(mat_dist);
+	free(mat_dist);
 
 	return 0;
 }
