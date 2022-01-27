@@ -1,4 +1,4 @@
-# Disciplina: Computação Concorrete
+# Disciplina: Computação Concorrente
 # Professora: Silvana Rosseto
 # Implemantação: Algoritmo em python para verificar a corretude dos 
 #                programas fw-conc.c e fw-seq.c usando a bilioteca subprocess.
