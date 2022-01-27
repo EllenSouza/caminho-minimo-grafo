@@ -10,7 +10,8 @@
 #include <stdio.h>       // printf(), fprintf(), fscanf(), fopen(), fclose()
 #include <stdlib.h>     //  malloc(), free(), atoi()
 #include <string.h>    //   strcmp()
-#include <time.h>     //    clock_t, CLOCKS_PER_SEC
+#include <pthread.h>  //    (Só para o timer.h funcionar)
+#include "timer.h"   //	    GET_TIME()
 
 #define INFINITO 99999      // Para representar o infito na matriz
 #define TAM_MAX_STRING 10  //  Para alocar o tamanho da string usada na leiturai
@@ -41,7 +42,7 @@ int main(int argc, char* argv[]){
 	int *mat_dist;		    //  Matriz distância advinda do grafo
 	FILE *arq; 		   //   Ponteiro para arquivo
 	char str[TAM_MAX_STRING]; //    String auxiliar para leitura da matriz
-	clock_t t;		 //	Tomada de tempo
+	double ini, fim;	 //	Tomada de tempo
 
 	// Verificação inicial
 	if(argc < 2){
@@ -75,13 +76,14 @@ int main(int argc, char* argv[]){
 	printf("Leitura concluída.\n\n");
 
 	printf("Calculando Floyd-Warshal...\n");
-	t = clock();
+
+	GET_TIME(ini);
 	fw(mat_dist, n); // Algoritmo de Floyd-Warshall
-	t = clock() - t;
+	GET_TIME(fim);
 	
 	printf("Cálculo concluído.\n\n");
 
-	printf("Tempo sequencial: %f\n\n", ((float)t)/CLOCKS_PER_SEC);	
+	printf("Tempo sequencial: %lf\n\n", fim - ini);	
 	
 	// Imprime resultado em output-seq.txt
 	arq = fopen("entrada_saida/output-seq.txt", "w+");

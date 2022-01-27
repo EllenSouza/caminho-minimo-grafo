@@ -12,7 +12,7 @@
 #include <stdlib.h>   //  malloc(), free(), atoi()
 #include <pthread.h> //   wait(), broadcast(), create(), join(), init(), destroy(), lock(), unlock()
 #include <string.h> //    strcmp()
-#include <time.h>  //     clock_t, CLOCKS_PER_SEC
+#include "timer.h" //	  GET_TIME()
 
 #define INFINITO 99999999   // Para representar o infito na matriz
 #define TAM_MAX_STRING 10  //  Para alocar o tamanho da string usada na leitura
@@ -85,8 +85,8 @@ int main(int argc, char * argv[]){
 	int n;            	    // Tamanho da maztriz quadrada 
 	FILE *arq;		   //  Ponteiro para arquivo
 	char str[TAM_MAX_STRING]; //   String auxiliar para leitura da matriz
-	clock_t t;	   	 //    Tomada de tempo
-	
+	double ini, fim;	 //    Tomada de tempo
+
 	pthread_t *tid;   // Id das threads no sistema
 	T_ARGS *dados;   //  Estruturas das threads
 
@@ -134,7 +134,7 @@ int main(int argc, char * argv[]){
 
 	printf("Calculando Floyd-Warshal...\n");
 
-	t = clock();
+	GET_TIME(ini);
 	// Cria as threads e chama o algoritmo de Floyd Marshall
 	for(int i = 0; i < nthreads; i++){
 		(dados + i)->id = i;
@@ -152,10 +152,10 @@ int main(int argc, char * argv[]){
 		}
 	}	
 	
-	t = clock() - t;
+	GET_TIME(fim);
 	printf("Cálculo concluído.\n\n");
 
-	printf("Tempo concorrente: %f\n\n", ((float)t)/CLOCKS_PER_SEC);
+	printf("Tempo concorrente: %lf\n\n",fim - ini);
 
 	// Fecha o arquivo
 	fclose(arq);
