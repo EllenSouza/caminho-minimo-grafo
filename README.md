@@ -9,7 +9,7 @@
 <p style="text-align: justify">A aplicação em questão é um trabalho da faculdade (UFRJ) para a disciplina de Computação Concorrente (MAB-117) - 2021/2 e que foi desenvolvida para ambiente Linux. </p>
 <p style="text-align: justify">O objetivo do projeto é mostrar os benefícios da programação concorrente resolução do problema de encontrar todos os todos os caminhos mínimo para cada par de vértices de um grafo dirigido ponderado.</p>
 <p style="text-align: justify">Utilizamos o algoritmo de Floyd-Warshall para realizar as comparações entre um algoritmo sequencial e um concorrente. Toda a aplicação foi desenvolvida em linguagem C utilizando a biblioteca Pthread.</p>
-<p style="text-align: justify">Para mais detalhes sobre o projeto <a href="">clique aqui</a>.</p>
+<p style="text-align: justify">Para mais detalhes sobre o projeto <a href="https://github.com/EllenSouza/caminho-minimo-grafo/blob/main/Caminho%20M%C3%ADnimo%20Concorrente.pdf">clique aqui</a>.</p>
 
 <!-- Acesso ao projeto -->
 <h1><br>Como executar o projeto</h1>
