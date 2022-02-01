@@ -54,22 +54,13 @@
 ```
 <!-- Autores -->
 <br><h1>Autores</h1>
-<div id = "autores" style{display: flex;}>
-    <div>
-        <a href="https://github.com/EllenSouza">
-            <img src="https://github.com/EllenSouza.png"
-                 style{width: 50%; border-radius: 8rem;}
-            >
-            <br><sub style{font-size: 1.5rem;}>Ellen Almeida</sub>
-        </a>   
-    </div>
-    <div>
-        <a href="https://github.com/kevinsena01">
-            <img src="https://github.com/kevinsena01.png"
-                 style{width: 50%; border-radius: 8rem;}
-            >
-            <br><sub style{font-size: 1.5rem;}>Kevin Sena</sub>
-        </a>
-    </div>
-    
-</div>
+<a href="https://github.com/EllenSouza">
+    <kbd>
+        <img style="float: right;" src="https://github.com/EllenSouza.png" width="150">
+    </kbd>
+</a>
+<a href="https://github.com/kevinsena01">
+    <kbd>
+        <img style="float: right;" src="https://github.com/kevinsena01.png" width="150">
+    </kbd>
+</a>
