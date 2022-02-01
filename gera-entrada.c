@@ -1,15 +1,25 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 /*
+ * Disciplina: Computação Concorrente
+ * Professora: Silvana Rossetto
+ * Implementação: Código para gerar matrizes de distância automaticamente
+ * 		  e servirem como dado de entrada para fw-seq.c e fw-conc.c
+ *
+ * Desenvolvido por: Ellen Almeida de Souza e Kevin Sena de Andrade
+ */
+
+#include <stdio.h>   // printf(), fprintf(), fopen(), fclose()
+#include <stdlib.h> //  malloc(), atoi()
+#include <time.h>  //   rand(), srand(), time()
+
+/* 
  * Código para gerar uma matriz de distância com valores aleatórios e
  * escrever no arquivo passado na execução
  *
  */
 
 int main (int argc, char * argv[]){
-	int tam;         //tamanho da matriz
-	FILE *arq;       //ponteiro para o arquivo
+	int tam;         // Tamanho da matriz
+	FILE *arq;       // Ponteiro para o arquivo
 	int aux;
 
 	//verificação inicial
@@ -44,12 +54,10 @@ int main (int argc, char * argv[]){
 			}
 		}
 		fprintf(arq, "\n");
-
 	}
 	
 	//fecha o arquivo
 	fclose(arq);
 	
-
 	return 0;
 }
