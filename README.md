@@ -6,10 +6,10 @@
 
 <!-- Breve introdução -->
 <h1><br>Descrição do projeto</h1>
-<p>A aplicação em questão é um trabalho da faculdade (UFRJ) para a disciplina de Computação Concorrente (MAB-117) - 2021/2 e que foi desenvolvida para ambiente Linux. </p>
-<p>O objetivo do projeto é mostrar os benefícios da programação concorrente resolução do problema de encontrar todos os todos os caminhos mínimo para cada par de vértices de um grafo dirigido ponderado.</p>
-<p>Utilizamos o algoritmo de Floyd-Warshall para realizar as comparações entre um algoritmo sequencial e um concorrente. Toda a aplicação foi desenvolvida em linguagem C utilizando a biblioteca Pthread.</p>
-<p>Para mais detalhes sobre o projeto <a href="">clique aqui</a>.</p>
+<p style="text-align: justify">A aplicação em questão é um trabalho da faculdade (UFRJ) para a disciplina de Computação Concorrente (MAB-117) - 2021/2 e que foi desenvolvida para ambiente Linux. </p>
+<p style="text-align: justify">O objetivo do projeto é mostrar os benefícios da programação concorrente resolução do problema de encontrar todos os todos os caminhos mínimo para cada par de vértices de um grafo dirigido ponderado.</p>
+<p style="text-align: justify">Utilizamos o algoritmo de Floyd-Warshall para realizar as comparações entre um algoritmo sequencial e um concorrente. Toda a aplicação foi desenvolvida em linguagem C utilizando a biblioteca Pthread.</p>
+<p style="text-align: justify">Para mais detalhes sobre o projeto <a href="">clique aqui</a>.</p>
 
 <!-- Acesso ao projeto -->
 <h1><br>Como executar o projeto</h1>
@@ -54,34 +54,22 @@
 ```
 <!-- Autores -->
 <br><h1>Autores</h1>
-<div id = "autores">
+<div id = "autores" style{display: flex;}>
     <div>
         <a href="https://github.com/EllenSouza">
-            <img src="https://github.com/EllenSouza.png">
-            <br><sub>Ellen Almeida</sub>
+            <img src="https://github.com/EllenSouza.png"
+                 style{width: 50%; border-radius: 8rem;}
+            >
+            <br><sub style{font-size: 1.5rem;}>Ellen Almeida</sub>
         </a>   
     </div>
     <div>
         <a href="https://github.com/kevinsena01">
-            <img src="https://github.com/kevinsena01.png">
-            <br><sub>Kevin Sena</sub>
+            <img src="https://github.com/kevinsena01.png"
+                 style{width: 50%; border-radius: 8rem;}
+            >
+            <br><sub style{font-size: 1.5rem;}>Kevin Sena</sub>
         </a>
     </div>
     
 </div>
-
-<style>
-    p{
-        text-align: justify
-    }
-    img {
-        width: 50%;
-        border-radius: 8rem;
-    }
-    sub{        
-        font-size: 1.5rem;
-    }
-    #autores{
-        display: flex;
-    }
-</style>
