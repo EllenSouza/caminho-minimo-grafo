@@ -1,6 +1,6 @@
 /*
  * Disciplina: Computação Concorrente
- * Professora: Silvana Rosseto
+ * Professora: Silvana Rossetto
  * Trabalho de implementação: Problema do caminho mínimo para todos os pares de vértices de um grafo.
  *                            Solução concorrente usando o algoritmo de Floyd-Warshall.
  *
