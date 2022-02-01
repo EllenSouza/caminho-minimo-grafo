@@ -1,13 +1,12 @@
 
 # Disciplina: Computação Concorrente
-# Professora: Silvana Rosseto
+# Professora: Silvana Rossetto
 # Implemantação: Algoritmo em python para verificar o desempenho dos 
 #                programas fw-conc.c e fw-seq.c usando a bilioteca subprocess.
 #
 # Desenvolvido por: Ellen Almeida de Souza e Kevin Sena de Andrade
 
 import subprocess     # Para rodar os executáveis
-from array import *   # Para lidar com array
 import sys            # Para pegar parametros na linha de comando
 
 if (len(sys.argv) < 2):
@@ -30,7 +29,17 @@ def min(a, b):
     return a if a < b else b
 
 # Vetor com os menores tempo para cada quantidade de threads
-minConc = array('f',[-1.11,-1.11,-1.11,-1.11])
+minConc = [-1] * nthreads
+
+# Antes de rodar, compila os arquivos
+# Gera matriz
+geraMatriz = subprocess.run(['gcc', '-o', 'g','gera-entrada.c', '-Wall'], capture_output=True, text=True)
+
+# Floyd-Warshall sequencial
+seq = subprocess.run(['gcc', '-o', 'fws', 'fw-seq.c', '-Wall'], capture_output=True, text=True)
+
+# Floyd-Warshall concorrente
+conc = subprocess.run(['gcc', '-o', 'fwc','fw-conc.c', '-Wall', '-lpthread'], capture_output=True, text=True)
 
 for tamMatriz in tamanhoMatrizes:
     print(f"Matriz {tamMatriz}x{tamMatriz}:")

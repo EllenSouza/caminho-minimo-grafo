@@ -1,5 +1,5 @@
 # Disciplina: Computação Concorrente
-# Professora: Silvana Rosseto
+# Professora: Silvana Rossetto
 # Implemantação: Algoritmo em python para verificar a corretude dos 
 #                programas fw-conc.c e fw-seq.c usando a bilioteca subprocess.
 #
@@ -15,6 +15,17 @@ entrada   = "entrada_saida/input.txt"
 saidaSeq  = "entrada_saida/output-seq.txt"
 saidaConc = "entrada_saida/output-conc.txt"
 
+# Antes de rodar, compila os arquivos
+# Gera matriz
+geraMatriz = subprocess.run(['gcc', '-o', 'g','gera-entrada.c', '-Wall'], capture_output=True, text=True)
+
+# Floyd-Warshall sequencial
+seq = subprocess.run(['gcc', '-o', 'fws', 'fw-seq.c', '-Wall'], capture_output=True, text=True)
+
+# Floyd-Warshall concorrente
+conc = subprocess.run(['gcc', '-o', 'fwc','fw-conc.c', '-Wall', '-lpthread'], capture_output=True, text=True)
+
+
 for tamMatriz in tamanhoMatrizes:
 
     # Para cada tamanho gera 4 matrizes diferentes
@@ -23,8 +34,8 @@ for tamMatriz in tamanhoMatrizes:
         # Gerando a matriz
         geraMatriz = subprocess.run(['./g', entrada, str(tamMatriz)], capture_output=True, text=True)
         
-        # Para cada matriz roda 3 vezes para verificar corretude
-        for j in range(3):
+        # Para cada matriz roda 2 vezes para verificar corretude
+        for j in range(2):
 
             # Executar Floyd-Warshall sequencial
             seq =  subprocess.run(['./fws', entrada], capture_output=True, text=True)
