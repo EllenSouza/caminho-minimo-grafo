@@ -29,8 +29,8 @@ int bloqueadas = 0;     //   Para a implementação da barreira
 
 // Estrutura de dados para passar para as threads
 typedef struct {
-	int n;
-	int id;
+	int n;   // Tamanho da matriz
+	int id; //  Id da thread
 }T_ARGS;
 
 /*
@@ -58,8 +58,8 @@ void barreira(int nthreads){
  * para todo par de vértices de um grafo dirigido e ponderado.
  *
  * Parâmetros (arg)
- *      inteiro com o Tamanho da matriz
- *      pthread_t com o id da thread
+ *      int  n: Tamanho da matriz
+ *      int id: Id da thread
  */
 void* fw (void * arg){
 	int tam = ((T_ARGS *) arg)->n;       // Tamanho da matriz
@@ -106,7 +106,7 @@ int main(int argc, char * argv[]){
 	arq = fopen(argv[1], "r");
 	if(arq == NULL){fprintf(stderr, "ERRO -- fopen()\n"); return 2;}
 
-	//leitura do arquivo
+	// Leitura do arquivo
 	fscanf(arq, "%d", &n);         // Tamanho da matriz
 	
 	// Aloca memória para a matriz distância
@@ -134,7 +134,8 @@ int main(int argc, char * argv[]){
 
 	printf("Calculando Floyd-Warshal...\n");
 
-	GET_TIME(ini);
+	GET_TIME(ini); // Início do cálculo do tempo
+
 	// Cria as threads e chama o algoritmo de Floyd Marshall
 	for(int i = 0; i < nthreads; i++){
 		(dados + i)->id = i;
@@ -152,7 +153,8 @@ int main(int argc, char * argv[]){
 		}
 	}	
 	
-	GET_TIME(fim);
+	GET_TIME(fim); // Fim do cálculo do tempo
+
 	printf("Cálculo concluído.\n\n");
 
 	printf("Tempo concorrente: %lf\n\n",fim - ini);
