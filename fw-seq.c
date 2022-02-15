@@ -13,8 +13,8 @@
 #include <pthread.h>  //    (Só para o timer.h funcionar)
 #include "timer.h"   //	    GET_TIME()
 
-#define INFINITO 99999      // Para representar o infito na matriz
-#define TAM_MAX_STRING 10  //  Para alocar o tamanho da string usada na leiturai
+#define INFINITO 99999999  // Para representar o infito na matriz
+#define TAM_MAX_STRING 10 //  Para alocar o tamanho da string usada na leiturai
 
 /*
  * Algoritmo de Floyd-Warshall para calcular o caminho mínimo
