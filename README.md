@@ -59,8 +59,8 @@
         <img style="float: right;" src="https://github.com/EllenSouza.png" width="150">
     </kbd>
 </a>
-<a href="https://github.com/kevinsena01">
+<a href="https://github.com/keviinsna">
     <kbd>
-        <img style="float: right;" src="https://github.com/kevinsena01.png" width="150">
+        <img style="float: right;" src="https://github.com/keviinsna.png" width="150">
     </kbd>
 </a>
